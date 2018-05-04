@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+	<meta charset="utf-8">
+		<head>
+			<style> 
+
+			h1 {
+			    display: block;
+			    font-size: 2em;
+			    -webkit-margin-before: 0.67em;
+			    -webkit-margin-after: 0.67em;
+			    -webkit-margin-start: 0px;
+			    -webkit-margin-end: 0px;
+			    font-weight: bold;
+			    margin-left: 600px;
+			}
+
+			.explain {
+			    display: block;
+			    font-size: .9em;
+			    -webkit-margin-before: 0.67em;
+			    -webkit-margin-after: 0.67em;
+			    -webkit-margin-start: 0px;
+			    -webkit-margin-end: 0px;
+			    margin-left: 282px;
+			    color: gray
+			}
+
+			body { 
+
+				font: 13px arial; 
+
+			}
+			.axis {
+
+				font: 13px arial;
+			}
+
+			.axis path,
+			.axis line {
+
+				fill: none;
+				stroke: #000;
+				shape-rendering: crispEdges;
+
+			}
+
+			.line {
+
+				fill: none;
+				stroke: lightblue;
+				stroke-width: 1.5px;
+				clip-path: url(#clip);
+
+			}
+
+			.bubble circle {
+
+				fill: black;
+				stroke: black;
+
+			}
+
+			.overlay {
+
+				fill: none;
+				pointer-events: all;
+				font: 13px arial;
+
+			}
+
+			.zoom {
+
+				cursor: move;
+				fill: none;
+				pointer-events: all;
+
+			}
+
+			</style>
+		</head>
+		<body>
+			<div class="column">
+				<h1>US Births Per Day in 2015</h1>
+			</div>
+			<svg width="1500" height="500"></svg>
+			<script src="http://d3js.org/d3.v4.min.js"></script>
+			<script>
+
+			var svg = d3.select("svg"),
+			    margin = {top: 20, right: 300, bottom: 100, left: 300},
+			    margin2 = {top: 430, right: 300, bottom: 30, left: 300},
+			    width = + svg.attr("width") - margin.left - margin.right,
+			    height = + svg.attr("height") - margin.top - margin.bottom,
+			    height2 = + svg.attr("height") - margin2.top - margin2.bottom;
+
+			var formatDate = d3.timeParse("%Y-%m-%d");
+			var formatValue = d3.format(",");
+			var formatHover = function(birth, date) { return "Total Births: " + formatValue(birth) + " \n Date: " + dateFormat(date) };
+			var bisectDate = d3.bisector(function(d) { return d.date; }).left;
+			var dateFormat = d3.timeFormat("%x, %a");
+
+			var x = d3.scaleTime().range([0, width]),
+			    x2 = d3.scaleTime().range([0, width]),
+			    y = d3.scaleLinear().range([height, 0]),
+			    y2 = d3.scaleLinear().range([height2, 0]);
+
+			var xAxis = d3.axisBottom(x),
+			    xAxis2 = d3.axisBottom(x2);
+
+			var yAxis = d3.axisLeft(y)
+				.tickFormat(function (d) {
+					if ((d / 1000) >= 1) {
+						d = d / 1000 + "K";
+					}
+					return d;
+				});
+
+			var brush = d3.brushX()
+			    .extent([[0, 0], [width, height2]])
+			    .on("brush end", brushed);
+
+			var zoom = d3.zoom()
+			    .scaleExtent([1, Infinity])
+			    .translateExtent([[0, 0], [width, height]])
+			    .extent([[0, 0], [width, height]])
+			    .on("zoom", zoomed);
+
+			var line = d3.line()
+				.curve(d3.curveMonotoneX)
+			    .x(function(d) { return x(d.date); })
+			    .y(function(d) { return y(d.births); });
+
+			var line2 = d3.line()
+				.curve(d3.curveMonotoneX)
+			    .x(function(d) { return x2(d.date); })
+			    .y(function(d) { return y2(d.births); });
+
+			svg.append("defs").append("clipPath")
+			    .attr("id", "clip")
+			    .append("rect")
+			    .attr("width", width)
+			    .attr("height", height);
+
+			var focus = svg.append("g")
+			    .attr("class", "focus")
+			    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+			var context = svg.append("g")
+			    .attr("class", "context")
+			    .attr("transform", "translate(" + margin2.left + "," + margin2.top + ")");
+
+
+			d3.csv("Births2015_assignment4.csv", type, function(error, data) {
+			  if (error) throw error;
+
+				x.domain(d3.extent(data, function(d) { return d.date; }));
+				y.domain([0, d3.max(data, function(d) { return d.births; })]);
+				x2.domain(x.domain());
+				y2.domain(y.domain());
+
+				focus.append("path")
+					.data([data])
+					.attr("class", "line")
+					.attr("d", line);
+
+				context.append("path")
+					.datum(data)
+					.attr("class", "line")
+					.attr("d", line2);
+
+				focus.append("g")
+					.attr("class", "axis axis--x")
+					.attr("transform", "translate(0," + height + ")")
+					.call(xAxis);
+
+				focus.append("g")
+					.attr("class", "axis axis--y")
+					.call(yAxis);
+
+				context.append("g")
+					.attr("class", "axis axis--x")
+					.attr("transform", "translate(0," + height2 + ")")
+					.call(xAxis2);
+
+				context.append("g")
+					.attr("class", "brush")
+					.call(brush)
+					.call(brush.move, x.range());
+
+				var bubble = svg.append("g")
+					.attr("class", "bubble")
+					.style("display", "none");
+
+				bubble.append("circle")
+					.attr("r", 4.5)
+					.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+				bubble.append("text")
+					.attr("x", 9)
+					.attr("dy", ".35em")
+					.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+				focus.append("rect")
+					.attr("class", "overlay")
+					.attr("width", width)
+					.attr("height", height)
+					.on("mouseover", function() { bubble.style("display", null); })
+					.on("mouseout", function() { bubble.style("display", "none"); })
+					.on("mousemove", mousemove);
+
+				function mousemove() {
+					var x0 = x.invert(d3.mouse(this)[0]),
+						i = bisectDate(data, x0, 1),
+						d0 = data[i - 1],
+						d1 = data[i],
+						d = x0 - d0.date > d1.date - x0 ? d1 : d0;
+					bubble.attr("transform", "translate(" + x(d.date) + "," + y(d.births) + ")");
+					bubble.select("text").text(formatHover(d.births, d.date));
+
+				}
+
+
+			});
+
+			function brushed() {
+				if (d3.event.sourceEvent && d3.event.sourceEvent.type === "zoom") return; // ignore brush-by-zoom
+				var s = d3.event.selection || x2.range();
+				x.domain(s.map(x2.invert, x2));
+				focus.select(".line").attr("d", line);
+				focus.select(".axis--x").call(xAxis);
+				svg.select(".zoom").call(zoom.transform, d3.zoomIdentity
+				  .scale(width / (s[1] - s[0]))
+				  .translate(-s[0], 0));
+			}
+
+			function zoomed() {
+				if (d3.event.sourceEvent && d3.event.sourceEvent.type === "brush") return; // ignore zoom-by-brush
+				var t = d3.event.transform;
+				x.domain(t.rescaleX(x2).domain());
+				focus.select(".line").attr("d", line);
+				focus.select(".axis--x").call(xAxis);
+				context.select(".brush").call(brush.move, x.range().map(t.invertX, t));
+			}
+
+			function type(d) {
+			  d.date = formatDate(d.date);
+			  d.births = +d.births;
+			  return d;
+			}
+
+
+		</script>
+		<div class="explain">
+			<p>INFX 562 Assignment 3, Brian Hudnall</p>
+			<p>Features: <br /> - Hover over the line to see exact value and date <br /> - Use the grey box below the chart by sliding the left or right side and drag the box to focus on one period of time.</p>
+		</div>
+	</body>
+</html>
+
+
