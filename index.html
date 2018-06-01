@@ -1,260 +1,186 @@
 <!DOCTYPE html>
-	<meta charset="utf-8">
-		<head>
-			<style> 
+<html>
+  <head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+		<link href="css/styles.css" rel="stylesheet">
+		<link href="css/vis.css" rel="stylesheet">
+    <style>
+    .graph-container {
+        float: right;
+        width: 41%;
+        padding: 1px;
+    }
 
-			h1 {
-			    display: block;
-			    font-size: 2em;
-			    -webkit-margin-before: 0.67em;
-			    -webkit-margin-after: 0.67em;
-			    -webkit-margin-start: 0px;
-			    -webkit-margin-end: 0px;
-			    font-weight: bold;
-			    margin-left: 600px;
-			}
+    .clearfix::after {
+        content: "";
+        clear: both;
+        display: table;
+    }
 
-			.explain {
-			    display: block;
-			    font-size: .9em;
-			    -webkit-margin-before: 0.67em;
-			    -webkit-margin-after: 0.67em;
-			    -webkit-margin-start: 0px;
-			    -webkit-margin-end: 0px;
-			    margin-left: 282px;
-			    color: gray
-			}
+    .img-responsive {
+      display: inline-block;
+      height: inherit;
+      width: 45%
+    }
 
-			body { 
+    .page_full_heading {
+      width: 100%;
+      height: auto;
+      float: left;
+      margin: 0px;
+      color: #000000;
+      font-family: helvetica;
+      /*font: 30px/46px 'Fira Sans';*/
+      font-weight: bold;
+    }
 
-				font: 13px arial; 
+    .explain {
+      color: #30394F;
+      font-family: helvetica;
+      text-align:left;
+    }
 
-			}
-			.axis {
+    body {
+      margin:100px 0;
+      padding:50px;
+      font-family: helvetica;
+      /*text-align:center;*/
+    }
 
-				font: 13px arial;
-			}
+    h3 {
+      font-family: helvetica;
+      /*text-align:center;*/
+    }
+    .center {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      width: 50%;
+    }
+    </style>
+  </head>
+  <body>
+    <div class="hero-image"><center><img class="img-responsive" src="icons/ab-testing-3.png" alt="Image" style="width:80%"></center></div>
+        <h3 class="explain">A/B Testing</h3>
+        <p class="explain">
+          A/B testing can be used to measure the true impact of user experience/interface changes in digital environments. With any business there are many factors that can contribute to performance, making it difficult to isolate the impact of one change. There are also confounding factors that can effect measurement, including events like seasonal changes, natural disasters, or promotional offers. A/B testing tools are used to serve randomized sets of customers different versions of content, allowing the business to measure the impact that the version differences can have.
+      </p>
+      <h3 class="explain">Experimental Design and Statistics</h3>
+      <p class="explain">
 
-			.axis path,
-			.axis line {
+        Having a true experimental design structure for A/B tests is key to ensuring proper measurement. It's also very important to understand the statistics and assumptions associated with different methodologies. Some key components to consider are:
 
-				fill: none;
-				stroke: #000;
-				shape-rendering: crispEdges;
+        <ul style="list-style-type:disc" class="explain">
+          <li>Metric type: is it discrete or continuous?</li>
+          <li>Hypothesis test to run: what are the assumptions of the test?</li>
+          <li>Sample Size: how many users need to be exposed to the content to reach statistical significance?</li>
+          <li>Distribution: does the actual distribution of the test results fit with the assumed distribution of the test statistic?</li>
+          <li>Outliers: are there users who are skewing the results of the data?</li>
+        </ul>
 
-			}
+        </p>
 
-			.line {
+      <h3 class="explain">Example</h3> 
+      <p class="explain">
+        Using an example, imagine you have two variations of a website, Variation A and Variation B. Variation A is what customers are accustomed to seeing when the visit the site and Variation B has changes in the checkout process. We will use an A/B testing tool to randomly serve Variation A to half the population, and Variation B to the other half. We will then use the metric 'Average Revenue Per Visitor' to measure the performance, and a T-Test to test the null hypothesis that there is no difference in Average Revenue Per Visitor between the variations.
+      </p>
+      </div>
+    <!-- add content -->
+    <div class="clearfix">
+         <div class="graph-container">
+            <div class="row">
+             <div class="col-md-12">
+               <div class="row">
+                 <div class="col-md-12" id="test"></div>
+               </div>
+               <div id="n_container">
+               <h4 id="n">Slide me</h4>
+               <div id="slider_n" class="ui-slider"></div>
+             </div>
+                 <div id="viz2" style="width:100%"></div>
+             </div>
+             </div>
+         </div>
+         <div class="graph-container">
+           <div class="row">
+           <div class="col-md-12">
+             <div class="div_settings">
+               <h4>Slide me <a class="glyphicon glyphicon-pencil" data-toggle="popover" title="Settings" id="slider-settings" href="javascript:void(0);"><span></span></a>
+               </h4>
+             </div>
+             <form id="popover-content" class="hide" role='form'>
+               <div class='form-group'>
+                 <label for='inputCohend'>Max Difference In Means </label>
+                   <input type='number' class='form-control inputCohend' id='inputCohend' min="0" max="5" placeholder='maxCohend'>
+               </div>
+               <div class='form-group'>
+                 <label for='inputStep'>Slider step size </label>
+                   <input type='number' class='form-control inputStep' id='inputStep' min="0" max="1" step="0.1" placeholder='inputStep'>
+               </div>
+             </form>
+             <div class="row">
+               <div class="col-md-12" id="test"></div>
+             </div>
+               <div id="slider" class="ui-slider"></div>
+               <div id="viz" style="width:100%"></div>
+           </div>
+           </div>
+         </div>
+           <div id="viz3" class="center"></div>
+    </div>
 
-				fill: none;
-				stroke: lightblue;
-				stroke-width: 1.5px;
-				clip-path: url(#clip);
+   <!-- add content  -->
+   <!-- Load JS files =============================-->
+    <script src="//code.jquery.com/jquery-1.8.3.js"></script>
+		<script src="js/jquery-ui-1.10.3.custom.min.js"></script>
+    <script src="js/jquery.ui.touch-punch.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+	  <script src="js/jstat.js"></script>
+		<!-- <script src="http://d3js.org/d3.v3.min.js"></script>-->
+    <script src="js/d3.v3.min.js"></script>
+    <script src="js/vis2.js"></script>
+	
+	 <p>
+	 
 
-			}
+<h3 class="explain">What is Difference in Means?</h3> 
+In A/B testing, difference in means is the observed difference in performance between A and B. In marketing this is sometimes called “lift” and in academia this is sometimes called “effect size”. The term effect size can refer to a standardized measure of effect (such as r, Cohen's d, or the odds ratio), or to an unstandardized measure (e.g., the difference between group means or the unstandardized regression coefficients). Standardized effect size measures are typically used when:
 
-			.bubble circle {
-
-				fill: black;
-				stroke: black;
-
-			}
-
-			.overlay {
-
-				fill: none;
-				pointer-events: all;
-				font: 13px arial;
-
-			}
-
-			.zoom {
-
-				cursor: move;
-				fill: none;
-				pointer-events: all;
-
-			}
-
-			</style>
-		</head>
-		<body>
-			<div class="column">
-				<h1>US Births Per Day in 2015</h1>
-			</div>
-			<svg width="1500" height="500"></svg>
-			<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.13.0/d3.min.js"></script>
-			<script>
-
-			var svg = d3.select("svg"),
-			    margin = {top: 20, right: 300, bottom: 100, left: 300},
-			    margin2 = {top: 430, right: 300, bottom: 30, left: 300},
-			    width = + svg.attr("width") - margin.left - margin.right,
-			    height = + svg.attr("height") - margin.top - margin.bottom,
-			    height2 = + svg.attr("height") - margin2.top - margin2.bottom;
-
-			var formatDate = d3.timeParse("%Y-%m-%d");
-			var formatValue = d3.format(",");
-			var formatHover = function(birth, date) { return "Total Births: " + formatValue(birth) + " \n Date: " + dateFormat(date) };
-			var bisectDate = d3.bisector(function(d) { return d.date; }).left;
-			var dateFormat = d3.timeFormat("%x, %a");
-
-			var x = d3.scaleTime().range([0, width]),
-			    x2 = d3.scaleTime().range([0, width]),
-			    y = d3.scaleLinear().range([height, 0]),
-			    y2 = d3.scaleLinear().range([height2, 0]);
-
-			var xAxis = d3.axisBottom(x),
-			    xAxis2 = d3.axisBottom(x2);
-
-			var yAxis = d3.axisLeft(y)
-				.tickFormat(function (d) {
-					if ((d / 1000) >= 1) {
-						d = d / 1000 + "K";
-					}
-					return d;
-				});
-
-			var brush = d3.brushX()
-			    .extent([[0, 0], [width, height2]])
-			    .on("brush end", brushed);
-
-			var zoom = d3.zoom()
-			    .scaleExtent([1, Infinity])
-			    .translateExtent([[0, 0], [width, height]])
-			    .extent([[0, 0], [width, height]])
-			    .on("zoom", zoomed);
-
-			var line = d3.line()
-				.curve(d3.curveMonotoneX)
-			    .x(function(d) { return x(d.date); })
-			    .y(function(d) { return y(d.births); });
-
-			var line2 = d3.line()
-				.curve(d3.curveMonotoneX)
-			    .x(function(d) { return x2(d.date); })
-			    .y(function(d) { return y2(d.births); });
-
-			svg.append("defs").append("clipPath")
-			    .attr("id", "clip")
-			    .append("rect")
-			    .attr("width", width)
-			    .attr("height", height);
-
-			var focus = svg.append("g")
-			    .attr("class", "focus")
-			    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-			var context = svg.append("g")
-			    .attr("class", "context")
-			    .attr("transform", "translate(" + margin2.left + "," + margin2.top + ")");
-
-
-			d3.csv("Births2015_assignment4.csv", type, function(error, data) {
-			  if (error) throw error;
-
-				x.domain(d3.extent(data, function(d) { return d.date; }));
-				y.domain([0, d3.max(data, function(d) { return d.births; })]);
-				x2.domain(x.domain());
-				y2.domain(y.domain());
-
-				focus.append("path")
-					.data([data])
-					.attr("class", "line")
-					.attr("d", line);
-
-				context.append("path")
-					.datum(data)
-					.attr("class", "line")
-					.attr("d", line2);
-
-				focus.append("g")
-					.attr("class", "axis axis--x")
-					.attr("transform", "translate(0," + height + ")")
-					.call(xAxis);
-
-				focus.append("g")
-					.attr("class", "axis axis--y")
-					.call(yAxis);
-
-				context.append("g")
-					.attr("class", "axis axis--x")
-					.attr("transform", "translate(0," + height2 + ")")
-					.call(xAxis2);
-
-				context.append("g")
-					.attr("class", "brush")
-					.call(brush)
-					.call(brush.move, x.range());
-
-				var bubble = svg.append("g")
-					.attr("class", "bubble")
-					.style("display", "none");
-
-				bubble.append("circle")
-					.attr("r", 4.5)
-					.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-				bubble.append("text")
-					.attr("x", 9)
-					.attr("dy", ".35em")
-					.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-				focus.append("rect")
-					.attr("class", "overlay")
-					.attr("width", width)
-					.attr("height", height)
-					.on("mouseover", function() { bubble.style("display", null); })
-					.on("mouseout", function() { bubble.style("display", "none"); })
-					.on("mousemove", mousemove);
-
-				function mousemove() {
-					var x0 = x.invert(d3.mouse(this)[0]),
-						i = bisectDate(data, x0, 1),
-						d0 = data[i - 1],
-						d1 = data[i],
-						d = x0 - d0.date > d1.date - x0 ? d1 : d0;
-					bubble.attr("transform", "translate(" + x(d.date) + "," + y(d.births) + ")");
-					bubble.select("text").text(formatHover(d.births, d.date));
-
-				}
+        <ul style="list-style-type:disc" class="explain">
+          <li>the metrics of variables being studied do not have intrinsic meaning (e.g., a score on a personality test on an arbitrary scale),</li>
+          <li>results from multiple studies are being combined,</li>
+          <li>some or all of the studies use different scales, or</li>
+          <li>it is desired to convey the size of an effect relative to the variability in the population.</li>
+        </ul>
 
 
-			});
 
-			function brushed() {
-				if (d3.event.sourceEvent && d3.event.sourceEvent.type === "zoom") return; // ignore brush-by-zoom
-				var s = d3.event.selection || x2.range();
-				x.domain(s.map(x2.invert, x2));
-				focus.select(".line").attr("d", line);
-				focus.select(".axis--x").call(xAxis);
-				svg.select(".zoom").call(zoom.transform, d3.zoomIdentity
-				  .scale(width / (s[1] - s[0]))
-				  .translate(-s[0], 0));
-			}
-
-			function zoomed() {
-				if (d3.event.sourceEvent && d3.event.sourceEvent.type === "brush") return; // ignore zoom-by-brush
-				var t = d3.event.transform;
-				x.domain(t.rescaleX(x2).domain());
-				focus.select(".line").attr("d", line);
-				focus.select(".axis--x").call(xAxis);
-				context.select(".brush").call(brush.move, x.range().map(t.invertX, t));
-			}
-
-			function type(d) {
-			  d.date = formatDate(d.date);
-			  d.births = +d.births;
-			  return d;
-			}
+<h3 class="explain">What is Sample Size?</h3> 
+Sample size is the number of visitors in the A/B test. Intuitively, we sense that the larger the sample size the more confidence we have in results. People use sample size to judge whether they should believe A is actually better than B or dismiss the results as due chance. So, everyone likes to know the sample size.
 
 
-		</script>
-		<div class="explain">
-			<p>INFX 562 Assignment 3, Brian Hudnall</p>
-			<p>Features: <br /> - Hover over the line to see exact value and date <br /> - Use the grey box below the chart by sliding the left or right side and drag the box to focus on one period of time.</p>
-		</div>
-	</body>
+<h3 class="explain">What are the A/B Testing Outcomes?</h3> 
+
+<h4 class="explain">Positive Effect</h4> 
+As an example, let’s look at the following A/B results; Group A (test): 22.6 Revenue Per Customer and Group B (control): 21.5 Revenue Per Customer. The data suggests that over many visits, Group A will have 22.6/21.5 – 1 = 5.1% more Revenue Per Customer. The difference in means would equal 1.1. In this example, let’s say the sample size would be 40. It’s relevant for the confidence you should have regarding chance effects. Variances should be equal as part of the T-Test assumptions. While Group A outperformed Group B (control) in this test of 40 visits, users were given A or B by a simple digital flip of the coin. Given this element of randomness, it’s possible that A just happened to get more users who would’ve converted whether they got A or B. 
+<div class="hero-image"><center><img class="img-responsive" src="icons/Positive_Chart.PNG" alt="Image" style="width:25%"></center></div>
+
+<h4 class="explain">Neutral Effect</h4> 
+As an example, let’s look at the following A/B results; Group A (test): 21.5 Revenue Per Customer and Group B (control): 21.5 Revenue Per Customer. The data suggests that over many visits, Group A will have 21.5 /21.5 – 1 = 0% more Revenue Per Customer. So the difference in means is 0%. In this example, the two groups have no detectable difference in performance as illustrated by the graphs.
+<div class="hero-image"><center><img class="img-responsive" src="icons/Neutral_Chart.PNG" alt="Image" style="width:25%"></center></div>
+
+<h4 class="explain">Negative Effect</h4> 
+In this visual, we do not allow the control and treatment groups to toggle performance results. In other words, we constrain the visuals to only display positive or neutral effects. 
+
+<br>
+<br>
+<h4 class="explain">References:</h4> 
+ <a href="https://en.wikipedia.org/wiki/Effect_size#Population_and_sample_effect_sizes">https://en.wikipedia.org/wiki/Effect_size#Population_and_sample_effect_sizes</a> <br>
+ <a href="http://www.statisticshowto.com/mean-difference/">http://www.statisticshowto.com/mean-difference/</a> <br>
+  <a href="http://conceptstew.co.uk/pages/nsamplesize.html">http://conceptstew.co.uk/pages/nsamplesize.html</a> <br>
+
+ 
+ </body>
 </html>
-
-

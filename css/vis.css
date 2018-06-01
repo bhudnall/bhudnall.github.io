@@ -1,0 +1,83 @@
+
+#viz {
+  background-color: #FFF;
+  border-radius: 2px;
+  padding-top:2px;
+}
+
+.axis {
+  font: 10px sans-serif;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+  stroke-width: 1px;
+
+}
+path#dist1 {
+	fill: #470772;
+	stroke: #470772;
+	stroke-width: 0px;
+}
+path#dist2{
+	fill: #ff8c00;
+	stroke: #ff8c00;
+	stroke-width: 0px;
+
+}
+line#mu1 {
+  fill: none;
+  stroke: white;
+  stroke-dasharray: 2,2;
+}
+line#mu2 {
+  fill: none;
+  stroke: white;
+  stroke-dasharray: 2,2;
+}
+line#mu3 {
+  fill: none;
+  stroke: white;
+  stroke-dasharray: 2,2;
+}
+line#mu_connect {
+    fill: none;
+    stroke: black;
+    stroke-width: 2px;
+}
+.poly {
+	stroke: #0E6569;
+	fill: #0E6569;
+}
+
+li.list-group-item {
+  border: 0;
+}
+
+svg .perc {
+  font-size: 14px;
+  font-family: "museo_slab500";
+  fill: #3498db;
+}
+
+.interpret {
+	background-color: #16A085;
+	color: white;
+	border-radius: 6px;
+	padding: 14px;
+}
+div#accordion {
+	color:black;
+}
+.sample_size {
+   font-family: "museo_slab500";
+   font-size:20px;
+}
+
+.effect_size {
+  stroke: #0E6569;
+  fill: #0E6569;
+}
