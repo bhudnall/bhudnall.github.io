@@ -585,8 +585,8 @@ function drawDifferenceInMeans(){
 					var value = 1.9;
 			}
 
-		    $slider.slider("option", "max", value);
-		    $(".inputCohend").attr("value", value);
+		    //$slider.slider("option", "max", value);
+		    $(".inputCohend").attr("value", para.cohend);
 
 		});
 		$('.div_settings').on('change','#inputStep',function () {
